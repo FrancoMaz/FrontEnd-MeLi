@@ -1,0 +1,34 @@
+body {
+  background-color: #EEEEEE;
+
+  .search-box {
+    width: 100%;
+    height: 55px;
+    background-color: #FFE400;
+
+    .input-and-search {
+      height: 85%;
+      padding-top: 5px;
+      display: flex;
+
+      .search-input {
+        width: 75%;
+        border: none;
+        padding-left: 10px;
+        font-size: 16px;
+        margin-left: auto;
+      }
+
+      .search-button {
+        background-color: #EEEEEE;
+        margin-right: auto;
+        font-size: 23px;
+        padding: 10px;
+        cursor: pointer;
+      }
+
+    }
+
+  }
+
+}
