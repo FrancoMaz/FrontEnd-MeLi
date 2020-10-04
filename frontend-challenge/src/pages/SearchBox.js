@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.scss';
+import '../App.scss';
 import { FaSearch } from 'react-icons/fa';
 
 
-class App extends React.Component {
+class SearchBox extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,6 +11,13 @@ class App extends React.Component {
             query: ''
         }
     }
+
+    routeChange = (newPath, response) => {
+        this.props.history.push({
+            pathname: newPath,
+            state: { searchResponse: response }
+        });
+    };
 
     showOptions = () => {
         fetch('http://localhost:3001/api/items', { //TODO: add query param
@@ -22,7 +29,7 @@ class App extends React.Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log(response)
+                this.routeChange("/items?search=", response);
             })
     };
 
@@ -46,4 +53,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default SearchBox;

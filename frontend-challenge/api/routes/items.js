@@ -3,7 +3,7 @@ const router = express.Router();
 const request = require('request');
 const mapResponse = require('../utils/mapper');
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res, next) => { //TODO: add query param to endpoint
 
     //const query = req.params.query;
 

@@ -1,0 +1,43 @@
+.results-page {
+
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+
+  .breadcrumb {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .result {
+
+    display: flex;
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-bottom: 1px solid;
+    height: 150px;
+
+    .image {
+      width: 140px;
+      height: 140px;
+      border: 1px solid;
+    }
+
+    .price-and-title {
+      width: 50%;
+      margin-left: 20px;
+      margin-top: 15px;
+
+      .price {
+        margin-bottom: 15px;
+      }
+
+    }
+
+    .city {
+      margin-top: 15px;
+    }
+
+  }
+
+}

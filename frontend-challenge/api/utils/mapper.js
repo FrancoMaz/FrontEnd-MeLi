@@ -2,13 +2,10 @@ const SearchModel = require("../model/SearchModel").SearchModel;
 const ItemModel = require("../model/ItemModel").ItemModel;
 
 function mapResponse(body) {
-    let response = [];
-    response.push(new SearchModel(
+    return new SearchModel(
         {name: "Franco", lastname: "Mazzoni"},
         mapCategories(body.available_filters[0].values),
         mapItem(body.results)).toJson()
-    );
-    return response;
 }
 
 function mapCategories(categories) {
