@@ -2,13 +2,15 @@
 
 class ItemModel {
 
-    constructor(id, title, price, picture, condition, free_shipping) {
+    constructor(id, title, price, picture, condition, free_shipping, sold_quantity, description) {
         this._id = id;
         this._title = title;
         this._price = price;
         this._picture = picture;
         this._condition = condition;
         this._freeShipping = free_shipping;
+        this._soldQuantity = sold_quantity;
+        this._description = description;
     }
 
     get id() {
@@ -35,6 +37,14 @@ class ItemModel {
         return this._freeShipping;
     }
 
+    get soldQuantity() {
+        return this._soldQuantity;
+    }
+
+    get description() {
+        return this._description;
+    }
+
     toJson(){
         return {
             id: this.id,
@@ -42,7 +52,9 @@ class ItemModel {
             price: this.price,
             picture: this.picture,
             condition: this.condition,
-            freeShipping: this.freeShipping
+            freeShipping: this.freeShipping,
+            soldQuantity: this.soldQuantity,
+            description: this.description
         }
     }
 }

@@ -2,7 +2,7 @@
 
   margin-left: auto;
   margin-right: auto;
-  width: 75%;
+  width: 80%;
 
   .breadcrumb {
     margin-top: 20px;
@@ -24,7 +24,7 @@
     }
 
     .price-and-title {
-      width: 50%;
+      width: 30%;
       margin-left: 20px;
       margin-top: 15px;
 
@@ -32,10 +32,16 @@
         margin-bottom: 15px;
       }
 
+      .title {
+        cursor: pointer;
+      }
+
     }
 
     .city {
       margin-top: 15px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
   }

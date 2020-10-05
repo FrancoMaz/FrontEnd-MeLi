@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/api/items', itemsRouter);
+app.use('/api/detail', itemsRouter); //TODO: change endpoint
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
