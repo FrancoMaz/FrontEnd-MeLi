@@ -33,8 +33,9 @@ function mapItem(items) {
 }
 
 function mapDetailItem(item, description) {
+    let freeShipping = item.shipping ? item.shipping.free_shipping : false;
     //TODO: agregar picture y description (pegarle a la otra API), cambiar formato del precio
-    return new ItemModel(item.id, item.title, item.price, "", item.condition, item.shipping.free_shipping, item.sold_quantity, description.plain_text).toJson();
+    return new ItemModel(item.id, item.title, item.price, "", item.condition, freeShipping, item.sold_quantity, description.plain_text).toJson();
 }
 
 module.exports = {

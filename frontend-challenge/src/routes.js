@@ -10,7 +10,7 @@ export const Routes = () => {
             <Switch>
                 <Route exact path="/" component={SearchBox} />
                 <Route exact path="/items?search=" component={Results} />
-                <Route exact path="/items/id" component={Detail} />
+                <Route exact path="/items/:id" component={Detail} />
             </Switch>
         </div>
     );

@@ -20,7 +20,7 @@ class SearchBox extends React.Component {
     };
 
     showOptions = () => {
-        fetch('http://localhost:3001/api/items', { //TODO: add query param
+        fetch('http://localhost:3001/api/items?q=' + this.state.query, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -29,7 +29,7 @@ class SearchBox extends React.Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.routeChange("/items?search=", response);
+                this.routeChange("/items?search=", response); //TODO: hacer que esta pag sea independiente
             })
     };
 

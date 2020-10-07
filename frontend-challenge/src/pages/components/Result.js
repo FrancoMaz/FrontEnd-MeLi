@@ -14,7 +14,7 @@ class Result extends React.Component {
     };
 
     showDetail = () => {
-        fetch('http://localhost:3001/api/detail', { //TODO: change endpoint
+        fetch('http://localhost:3001/api/items/' + this.props.data.id, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -23,7 +23,7 @@ class Result extends React.Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.routeChange("/items/id", response); //TODO: change
+                this.routeChange("/items/" + this.props.data.id, response);
             })
     };
 
