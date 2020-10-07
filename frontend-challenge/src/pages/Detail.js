@@ -7,19 +7,20 @@ class Detail extends React.Component {
     }
 
     showDetail = () => {
+        let item = this.props.location.state.detailResponse.item;
         return (
             <div className="detail-product">
                 <div className="image-and-item-data">
                     <div className="image"/>
                         <div className="item-data">
-                            <div className="condition-and-sold">Nuevo - 234 vendidos</div>
-                            <div className="title">Deco Reverse Sombrero Oxford</div>
-                            <div className="price">$ 1.980</div>
+                            <div className="condition-and-sold">Nuevo - {item.soldQuantity} vendidos</div>
+                            <div className="title">{item.title}</div>
+                            <div className="price">$ {item.price}</div>
                             <button className="buy-button">Comprar</button>
                         </div>
                 </div>
                 <div className="description-title">Descripción del producto</div>
-                <div className="description">Descripción</div>
+                <div className="description">{item.description}</div>
             </div>
         )
     };

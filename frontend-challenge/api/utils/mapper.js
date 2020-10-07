@@ -1,4 +1,5 @@
 const SearchModel = require("../model/SearchModel").SearchModel;
+const DetailModel = require("../model/DetailModel").DetailModel;
 const ItemModel = require("../model/ItemModel").ItemModel;
 
 function mapSearch(body) {
@@ -8,10 +9,10 @@ function mapSearch(body) {
         mapItem(body.results)).toJson()
 }
 
-function mapDetail(body) {
+function mapDetail(item, description) {
     return new DetailModel(
         {name: "Franco", lastname: "Mazzoni"},
-        mapDetailItem(body.results)).toJson()
+        mapDetailItem(item, description)).toJson()
 }
 
 function mapCategories(categories) {
@@ -31,9 +32,9 @@ function mapItem(items) {
     return itemResponses
 }
 
-function mapDetailItem(item) {
+function mapDetailItem(item, description) {
     //TODO: agregar picture y description (pegarle a la otra API), cambiar formato del precio
-    return new ItemModel(item.id, item.title, item.price, "", item.condition, item.shipping.free_shipping, item.sold_quantity, "");
+    return new ItemModel(item.id, item.title, item.price, "", item.condition, item.shipping.free_shipping, item.sold_quantity, description.plain_text).toJson();
 }
 
 module.exports = {
