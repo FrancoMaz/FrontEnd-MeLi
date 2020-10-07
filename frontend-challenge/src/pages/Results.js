@@ -8,11 +8,10 @@ class Results extends React.Component {
     }
 
     showClusterResults = () => {
-        let results = this.props.location.state.searchResponse.responseApi.items;
+        let results = this.props.location.state.searchResponse.items;
         return (
             <div className="cluster-results">
                 {results.map(item => {
-                    //TODO: Poner bien el precio
                     return (
                         <Result data={item} history={this.props.history}/>
                     )

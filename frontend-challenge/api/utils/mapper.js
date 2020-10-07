@@ -1,18 +1,22 @@
+const request = require('superagent');
+
 const SearchModel = require("../model/SearchModel").SearchModel;
 const DetailModel = require("../model/DetailModel").DetailModel;
+const PriceModel = require("../model/PriceModel").PriceModel;
 const ItemModel = require("../model/ItemModel").ItemModel;
+const CurrencyService = require("../service/currencyService");
 
-function mapSearch(body) {
+async function mapSearch(search) {
     return new SearchModel(
         {name: "Franco", lastname: "Mazzoni"},
-        mapCategories(body.available_filters[0].values),
-        mapItem(body.results)).toJson()
+        mapCategories(search.available_filters[0].values),
+        await mapItem(search.results)).toJson()
 }
 
-function mapDetail(item, description) {
+async function mapDetail(item, description) {
     return new DetailModel(
         {name: "Franco", lastname: "Mazzoni"},
-        mapDetailItem(item, description)).toJson()
+        await mapDetailItem(item, description)).toJson()
 }
 
 function mapCategories(categories) {
@@ -23,19 +27,24 @@ function mapCategories(categories) {
     return categoriesNames;
 }
 
-function mapItem(items) {
+function mapPrice(price, currency) {
+    return new PriceModel(currency.symbol, price, currency.decimal_places).toJson()
+}
+
+//TODO: agregar caché al request de currency
+async function mapItem(items) {
     let itemResponses = [];
-    items.forEach(item => {
-        //TODO: map price and get picture url
-        itemResponses.push(new ItemModel(item.id, item.title, item.price, "", item.condition, item.shipping.free_shipping).toJson());
-    });
+    for (item of items) {
+        let currencyServiceResponse = await CurrencyService(item.currency_id);
+        itemResponses.push(new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, item.shipping.free_shipping).toJson());
+    }
     return itemResponses
 }
 
-function mapDetailItem(item, description) {
-    let freeShipping = item.shipping ? item.shipping.free_shipping : false;
-    //TODO: agregar picture y description (pegarle a la otra API), cambiar formato del precio
-    return new ItemModel(item.id, item.title, item.price, "", item.condition, freeShipping, item.sold_quantity, description.plain_text).toJson();
+async function mapDetailItem(item, description) {
+    let currencyServiceResponse = await CurrencyService(item.currency_id);
+    return new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, item.shipping.free_shipping, item.sold_quantity, description.plain_text).toJson();
+
 }
 
 module.exports = {

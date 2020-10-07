@@ -8,14 +8,15 @@ class Detail extends React.Component {
 
     showDetail = () => {
         let item = this.props.location.state.detailResponse.item;
+        //TODO: agregar decimales al precio
         return (
             <div className="detail-product">
                 <div className="image-and-item-data">
                     <div className="image"/>
                         <div className="item-data">
-                            <div className="condition-and-sold">Nuevo - {item.soldQuantity} vendidos</div>
+                            <div className="condition-and-sold">{item.condition} - {item.soldQuantity} vendidos</div>
                             <div className="title">{item.title}</div>
-                            <div className="price">$ {item.price}</div>
+                            <div className="price">{item.price.currency} {item.price.amount}</div>
                             <button className="buy-button">Comprar</button>
                         </div>
                 </div>
