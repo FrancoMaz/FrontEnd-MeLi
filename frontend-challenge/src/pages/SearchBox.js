@@ -38,6 +38,7 @@ class SearchBox extends React.Component {
     };
 
     render() {
+        //TODO: NO USAR FASEARCH, agregar el svg a mano
         return (
             <div className="search-page">
                 <div className="search-box">

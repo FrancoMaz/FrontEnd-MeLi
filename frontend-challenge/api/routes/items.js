@@ -4,10 +4,30 @@ const request = require('request');
 const mapResults = require('../utils/mapper');
 const mapSearch = mapResults.mapSearch;
 const mapDetail = mapResults.mapDetail;
+const mcache = require("memory-cache");
+
+const timeoutCache = 10;
+
+let cache = (duration) => {
+    return (req, res, next) => {
+        let key = req.url;
+        let cachedBody = mcache.get(key);
+        if (cachedBody) {
+            res.send(cachedBody);
+        } else {
+            res.sendResponse = res.send;
+            res.send = (body) => {
+                mcache.put(key, body, duration * 1000);
+                res.sendResponse(body);
+            };
+            next();
+        }
+    }
+};
 
 //TODO: manejar errores de servicio y agregar caché
 
-router.get('/', (req, res, next) => {
+router.get('/', cache(timeoutCache), (req, res, next) => {
 
     const query = req.query.q;
 
@@ -19,7 +39,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', cache(timeoutCache), (req, res, next) => {
 
     request("https://api.mercadolibre.com/items/" + req.params.id, { json: true }, async (err, response, bodyItem) => {
         request("https://api.mercadolibre.com/items/" + req.params.id + "/description", { json: true }, async (err, response, bodyDescription) => {

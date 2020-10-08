@@ -1,5 +1,3 @@
-const request = require('superagent');
-
 const SearchModel = require("../model/SearchModel").SearchModel;
 const DetailModel = require("../model/DetailModel").DetailModel;
 const PriceModel = require("../model/PriceModel").PriceModel;
@@ -31,11 +29,17 @@ function mapPrice(price, currency) {
     return new PriceModel(currency.symbol, price, currency.decimal_places).toJson()
 }
 
-//TODO: agregar caché al request de currency
 async function mapItem(items) {
     let itemResponses = [];
+    let currenciesMap = new Map(); //Uso un mapa para almacenar las currencies y no tener que ir al servicio por cada ítem. Key: currency_id, Value: respuesta del servicio
+    let currencyServiceResponse;
     for (item of items) {
-        let currencyServiceResponse = await CurrencyService(item.currency_id);
+        if (!currenciesMap.has(item.currency_id)) {
+            currencyServiceResponse = await CurrencyService(item.currency_id);
+            currenciesMap.set(item.currency_id, currencyServiceResponse)
+        } else {
+            currencyServiceResponse = currenciesMap.get(item.currency_id)
+        }
         itemResponses.push(new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, item.shipping.free_shipping).toJson());
     }
     return itemResponses
