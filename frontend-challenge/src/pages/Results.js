@@ -1,6 +1,7 @@
 import React from "react";
 import './Results.scss';
 import Result from "./components/Result";
+import Breadcrumb from "./components/Breadcrumb";
 
 class Results extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class Results extends React.Component {
     }
 
     showClusterResults = () => {
-        let results = this.props.location.state.searchResponse.items;
+        let results = this.props.location.state.searchResponse.items; //TODO: pasar esto a state
         return (
             <div className="cluster-results">
                 {results.map(item => {
@@ -20,13 +21,17 @@ class Results extends React.Component {
         )
     };
 
+    showBreadcrumb = () => {
+        let categories = this.props.location.state.searchResponse.categories;
+        return (
+            <Breadcrumb categories={categories}/>
+        )
+    };
+
     render() {
-        //TODO: armar el breadcrumb basado en el servicio
         return (
             <div className="results-page">
-                <div className="breadcrumb">
-                    Electrónica, audio y video > iPod > Reproducciones > iPod Touch > 32 GB
-                </div>
+                {this.showBreadcrumb()}
                 {this.showClusterResults()}
             </div>
         );

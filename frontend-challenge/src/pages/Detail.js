@@ -1,5 +1,6 @@
 import React from "react";
 import './Detail.scss';
+import Breadcrumb from "./components/Breadcrumb";
 
 class Detail extends React.Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class Detail extends React.Component {
     }
 
     showDetail = () => {
-        let item = this.props.location.state.detailResponse.item;
+        let item = this.props.location.state.detailResponse.item; //TODO: pasar esto a state
         //TODO: agregar decimales al precio
         return (
             <div className="detail-product">
@@ -26,12 +27,17 @@ class Detail extends React.Component {
         )
     };
 
+    showBreadcrumb = () => {
+        let categories = this.props.location.state.detailResponse.item.categories;
+        return (
+            <Breadcrumb categories={categories}/>
+        )
+    };
+
     render() {
         return(
             <div className="detail-page">
-                <div className="breadcrumb">
-                    Electrónica, audio y video > iPod > Reproducciones > iPod Touch > 32 GB
-                </div>
+                {this.showBreadcrumb()}
                 {this.showDetail()}
             </div>
         )

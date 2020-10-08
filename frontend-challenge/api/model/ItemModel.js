@@ -2,7 +2,7 @@
 
 class ItemModel {
 
-    constructor(id, title, price, picture, condition, free_shipping, sold_quantity, description) {
+    constructor(id, title, price, picture, condition, free_shipping, sold_quantity, categories, description) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -10,6 +10,7 @@ class ItemModel {
         this._condition = condition;
         this._freeShipping = free_shipping;
         this._soldQuantity = sold_quantity;
+        this._categories = categories;
         this._description = description;
     }
 
@@ -41,6 +42,10 @@ class ItemModel {
         return this._soldQuantity;
     }
 
+    get categories() {
+        return this._categories;
+    }
+
     get description() {
         return this._description;
     }
@@ -54,6 +59,7 @@ class ItemModel {
             condition: this.condition,
             freeShipping: this.freeShipping,
             soldQuantity: this.soldQuantity,
+            categories: this.categories,
             description: this.description
         }
     }

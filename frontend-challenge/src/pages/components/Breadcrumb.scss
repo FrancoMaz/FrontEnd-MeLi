@@ -1,0 +1,16 @@
+.breadcrumb {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+
+  .category {
+    display: flex;
+
+    .separator {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+  }
+
+}

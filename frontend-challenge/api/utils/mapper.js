@@ -3,11 +3,13 @@ const DetailModel = require("../model/DetailModel").DetailModel;
 const PriceModel = require("../model/PriceModel").PriceModel;
 const ItemModel = require("../model/ItemModel").ItemModel;
 const CurrencyService = require("../service/currencyService");
+const CategoryService = require("../service/categoryService");
+
 
 async function mapSearch(search) {
     return new SearchModel(
         {name: "Franco", lastname: "Mazzoni"},
-        mapCategories(search.available_filters[0].values),
+        await sortAndMapCategories(search.available_filters[0].values),
         await mapItem(search.results)).toJson()
 }
 
@@ -17,12 +19,23 @@ async function mapDetail(item, description) {
         await mapDetailItem(item, description)).toJson()
 }
 
-function mapCategories(categories) {
+function sortCategories(categories) {
+    return categories.sort((a, b) => (a.results < b.results) ? 1 : -1); //Ordeno para quedarme con la categoría que tiene más resultados
+}
+
+async function mapCategories(categoryId) {
     let categoriesNames = [];
-    categories.forEach(category => {
+    let categoryServiceResponse = await CategoryService(categoryId);
+    categoryServiceResponse.path_from_root.forEach(category => { //Path_from_root contiene las categorías a devolver en el endpoint, que son las que se deben mostrar en el breadcrumb
         categoriesNames.push(category.name);
     });
     return categoriesNames;
+}
+
+async function sortAndMapCategories(categories) {
+    let categoriesSorted = sortCategories(categories);
+    return await mapCategories(categoriesSorted[0].id)
+
 }
 
 function mapPrice(price, currency) {
@@ -47,7 +60,9 @@ async function mapItem(items) {
 
 async function mapDetailItem(item, description) {
     let currencyServiceResponse = await CurrencyService(item.currency_id);
-    return new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, item.shipping.free_shipping, item.sold_quantity, description.plain_text).toJson();
+    let freeShipping = item.shipping ? item.shipping.free_shipping : false;
+    //Aclaración: se agrega categories a la respuesta para poder armar el breadcrumb del ítem en la página de detail
+    return new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, freeShipping, item.sold_quantity, await mapCategories(item.category_id), description.plain_text).toJson();
 
 }
 
