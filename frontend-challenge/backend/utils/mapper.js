@@ -46,7 +46,7 @@ async function mapItem(items) {
     let itemResponses = [];
     let currenciesMap = new Map(); //Uso un mapa para almacenar las currencies y no tener que ir al servicio por cada ítem. Key: currency_id, Value: respuesta del servicio
     let currencyServiceResponse;
-    for (item of items) {
+    for (let item of items) {
         if (!currenciesMap.has(item.currency_id)) {
             currencyServiceResponse = await CurrencyService(item.currency_id);
             currenciesMap.set(item.currency_id, currencyServiceResponse)
