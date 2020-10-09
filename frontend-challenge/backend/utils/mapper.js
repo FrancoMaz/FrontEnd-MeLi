@@ -69,5 +69,10 @@ async function mapDetailItem(item, description) {
 module.exports = {
     mapSearch: mapSearch,
     mapDetail: mapDetail,
-    mapPrice: mapPrice
+    mapPrice: mapPrice,
+    sortCategories: sortCategories,
+    mapCategories: mapCategories,
+    sortAndMapCategories: sortAndMapCategories,
+    mapDetailItem: mapDetailItem,
+    mapItem: mapItem
 };
