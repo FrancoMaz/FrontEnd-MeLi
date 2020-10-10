@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.scss';
-import { FaSearch } from 'react-icons/fa';
-
+import SearchIcon from '../icons/search.svg';
 
 class SearchBox extends React.Component {
 
@@ -45,7 +44,7 @@ class SearchBox extends React.Component {
                     <div className="input-and-search">
                         <input className="search-input" type="search" placeholder="Nunca dejes de buscar" onChange={this.handleInputChange}/>
                         <div className="search-button" onClick={this.showOptions}>
-                            <FaSearch/>
+                            <img src={SearchIcon}/>
                         </div>
                     </div>
                 </div>
