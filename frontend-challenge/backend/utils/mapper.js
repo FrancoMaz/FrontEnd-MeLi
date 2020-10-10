@@ -7,9 +7,14 @@ const CategoryService = require("../service/categoryService");
 
 
 async function mapSearch(search) {
+
+    let categories = search.available_filters.filter(filter => filter.id === "category");
+
+    let categoriesToReturn = categories.length > 0 ? await sortAndMapCategories(search.available_filters[0].values) : [];
+
     return new SearchModel(
         {name: "Franco", lastname: "Mazzoni"},
-        await sortAndMapCategories(search.available_filters[0].values),
+        categoriesToReturn,
         await mapItem(search.results)).toJson()
 }
 
