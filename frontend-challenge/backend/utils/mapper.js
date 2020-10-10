@@ -53,7 +53,8 @@ async function mapItem(items) {
         } else {
             currencyServiceResponse = currenciesMap.get(item.currency_id)
         }
-        itemResponses.push(new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, item.shipping.free_shipping).toJson());
+        //Hago el replace en el thumbnail (imagen) para que me traiga la imagen de 90x90
+        itemResponses.push(new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail.replace("-O.jpg", "-I.jpg"), item.condition, item.shipping.free_shipping).toJson());
     }
     return itemResponses
 }

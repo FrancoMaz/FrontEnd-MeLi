@@ -11,6 +11,7 @@
     padding: 10px;
     border-bottom: 1px solid;
     height: 150px;
+    width: 100%;
 
     .image {
       width: 140px;
@@ -18,25 +19,32 @@
       border: 1px solid;
     }
 
-    .price-and-title {
-      width: 30%;
-      margin-left: 20px;
-      margin-top: 15px;
+    .price-title-city {
+      display: flex;
+      width: calc(100% - 208px);
 
-      .price {
-        margin-bottom: 15px;
+      .price-and-title {
+        width: 56%;
+        margin-left: 20px;
+        margin-top: 15px;
+        font-size: 18px;
+
+        .price {
+          margin-bottom: 15px;
+        }
+
+        .title {
+          cursor: pointer;
+        }
+
       }
 
-      .title {
-        cursor: pointer;
+      .city {
+        margin-top: 15px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-    }
-
-    .city {
-      margin-top: 15px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
   }

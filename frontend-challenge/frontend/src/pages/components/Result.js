@@ -31,12 +31,14 @@ class Result extends React.Component {
         //TODO: traer la ciudad del seller del servicio
         return (
             <div className="result">
-                <div className="image"/>
-                <div className="price-and-title">
-                    <div className="price">{this.props.data.price.currency} {this.props.data.price.amount}</div>
-                    <div className="title" onClick={this.showDetail}>{this.props.data.title}</div>
+                <img className="image" src={this.props.data.picture}/>
+                <div className="price-title-city">
+                    <div className="price-and-title">
+                        <div className="price">{this.props.data.price.currency} {this.props.data.price.amount}</div>
+                        <div className="title" onClick={this.showDetail}>{this.props.data.title}</div>
+                    </div>
+                    <div className="city">Buenos Aires</div>
                 </div>
-                <div className="city">Buenos Aires</div>
             </div>
         )
     }
