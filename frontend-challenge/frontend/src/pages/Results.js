@@ -2,6 +2,7 @@ import React from "react";
 import './Results.scss';
 import Result from "./components/Result";
 import Breadcrumb from "./components/Breadcrumb";
+import SearchBox from "./SearchBox";
 
 class Results extends React.Component {
     constructor(props) {
@@ -30,9 +31,12 @@ class Results extends React.Component {
 
     render() {
         return (
-            <div className="results-page">
-                {this.showBreadcrumb()}
-                {this.showClusterResults()}
+            <div className="search-and-results">
+                <SearchBox history={this.props.history}/>
+                <div className="results-page">
+                    {this.showBreadcrumb()}
+                    {this.showClusterResults()}
+                </div>
             </div>
         );
     };
