@@ -5,17 +5,38 @@ import Breadcrumb from "./components/Breadcrumb";
 import SearchBox from "./SearchBox";
 
 class Results extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            response: this.props.location.state.searchResponse,
+            searchResponse: null,
             actualPage: 1,
             resultsPerPage: 4
-        }
+        };
     }
 
+    componentDidMount() {
+        this.getSearchResponse();
+    }
+
+    getSearchResponse = () => {
+        let params = new URLSearchParams(this.props.location.search);
+
+        fetch('http://localhost:3001/api/items?q=' + params.get("search"), {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                this.setState({searchResponse: response})
+            })
+    };
+
     showClusterResults = () => {
-        let items = this.state.response.items;
+        let items = this.state.searchResponse.items;
         return (
             <div className="cluster-results">
                 {items.map((item, index) => {
@@ -30,7 +51,7 @@ class Results extends React.Component {
     };
 
     showBreadcrumb = () => {
-        let categories = this.state.response.categories;
+        let categories = this.state.searchResponse.categories;
         return (
             <Breadcrumb categories={categories}/>
         )
@@ -41,7 +62,7 @@ class Results extends React.Component {
     };
 
     showPages = () => {
-        let lastPage = Math.floor((this.state.response.items.length / 4) + 1);
+        let lastPage = Math.floor((this.state.searchResponse.items.length / 4) + 1);
         //Creo un array de n posiciones (siendo n la última página). Como el array empieza en 0 tengo que aumentar los valores en 1
         let pagesToShow = [...Array(lastPage).keys()];
         return (
@@ -57,6 +78,12 @@ class Results extends React.Component {
     };
 
     render() {
+
+        if (!this.state.searchResponse) {
+            console.log(1);
+            return null;
+        }
+
         return (
             <div className="search-and-results">
                 <SearchBox history={this.props.history}/>

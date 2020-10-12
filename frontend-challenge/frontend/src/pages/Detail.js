@@ -3,13 +3,36 @@ import './Detail.scss';
 import Breadcrumb from "./components/Breadcrumb";
 import SearchBox from "./SearchBox";
 
+
 class Detail extends React.Component {
+
     constructor(props) {
         super(props);
+        this.state = {
+            detailResponse: null
+        };
     }
 
+    componentDidMount() {
+        this.getDetailResponse();
+    }
+
+    getDetailResponse = () => {
+        fetch('http://localhost:3001/api/items/' + this.props.match.params.id, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                this.setState({detailResponse: response})
+            })
+    };
+
     showDetail = () => {
-        let item = this.props.location.state.detailResponse.item; //TODO: pasar esto a state
+        let item = this.state.detailResponse.item;
         //TODO: agregar decimales al precio
         return (
             <div className="detail-product">
@@ -29,14 +52,18 @@ class Detail extends React.Component {
     };
 
     showBreadcrumb = () => {
-        let categories = this.props.location.state.detailResponse.item.categories;
+        let categories = this.state.detailResponse.item.categories;
         return (
             <Breadcrumb categories={categories}/>
         )
     };
 
     render() {
-        return(
+
+        if(!this.state.detailResponse)
+            return null;
+
+        return (
             <div className="search-and-detail">
                 <SearchBox history={this.props.history}/>
                 <div className="detail-page">

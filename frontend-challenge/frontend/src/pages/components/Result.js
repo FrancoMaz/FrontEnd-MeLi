@@ -4,30 +4,10 @@ class Result extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            page: this.props.page
-        }
     }
 
-    routeChange = (newPath, response) => {
-        this.props.history.push({
-            pathname: newPath,
-            state: { detailResponse: response }
-        });
-    };
-
-    showDetail = () => {
-        fetch('http://localhost:3001/api/items/' + this.props.data.id, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-                this.routeChange("/items/" + this.props.data.id, response);
-            })
+    routeChange = (newPath) => {
+        this.props.history.push(newPath);
     };
 
     render() {
@@ -38,7 +18,7 @@ class Result extends React.Component {
                 <div className="price-title-city">
                     <div className="price-and-title">
                         <div className="price">{this.props.data.price.currency} {this.props.data.price.amount}</div>
-                        <div className="title" onClick={this.showDetail}>{this.props.data.title}</div>
+                        <div className="title" onClick={() => this.routeChange("/items/" + this.props.data.id)}>{this.props.data.title}</div>
                     </div>
                     <div className="city">Buenos Aires</div>
                 </div>
