@@ -49,4 +49,19 @@
 
   }
 
+  .pages {
+    display: flex;
+    margin-top: 20px;
+
+    .page {
+      color: blue;
+      cursor: pointer;
+      margin-right: 20px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+  }
+
 }

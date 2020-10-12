@@ -4,6 +4,9 @@ class Result extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            page: this.props.page
+        }
     }
 
     routeChange = (newPath, response) => {
