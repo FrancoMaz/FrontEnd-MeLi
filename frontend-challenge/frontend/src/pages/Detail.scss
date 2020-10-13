@@ -16,8 +16,8 @@
       display: flex;
 
       .image {
-        width: 500px;
-        height: 500px;
+        width: 100%;
+        height: auto;
         border: 1px solid;
         margin-right: 25px;
       }
@@ -65,4 +65,14 @@
 
   }
 
+}
+
+@media (max-width: 1023px) {
+  .detail-page .detail-product .image-and-item-data {
+    display: block;
+
+    .image {
+      margin-bottom: 25px;
+    }
+  }
 }
