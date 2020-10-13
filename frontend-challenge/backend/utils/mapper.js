@@ -59,7 +59,8 @@ async function mapItem(items) {
             currencyServiceResponse = currenciesMap.get(item.currency_id)
         }
         //Hago el replace en el thumbnail (imagen) para que me traiga la imagen de 90x90
-        itemResponses.push(new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail.replace("-O.jpg", "-I.jpg"), item.condition, item.shipping.free_shipping).toJson());
+        itemResponses.push(new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse),
+            item.thumbnail.replace("-O.jpg", "-I.jpg"), item.condition, item.shipping.free_shipping, item.address.state_name).toJson());
     }
     return itemResponses
 }
@@ -68,7 +69,8 @@ async function mapDetailItem(item, description) {
     let currencyServiceResponse = await CurrencyService(item.currency_id);
     let freeShipping = item.shipping ? item.shipping.free_shipping : false;
     //Aclaración: se agrega categories a la respuesta para poder armar el breadcrumb del ítem en la página de detail
-    return new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, freeShipping, item.sold_quantity, await mapCategories(item.category_id), description.plain_text).toJson();
+    return new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, freeShipping,
+        null, item.sold_quantity, await mapCategories(item.category_id), description.plain_text).toJson();
 
 }
 

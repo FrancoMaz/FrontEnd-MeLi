@@ -20,7 +20,7 @@ class Result extends React.Component {
                         <div className="price">{this.props.data.price.currency} {this.props.data.price.amount}</div>
                         <div className="title" onClick={() => this.routeChange("/items/" + this.props.data.id)}>{this.props.data.title}</div>
                     </div>
-                    <div className="city">Buenos Aires</div>
+                    <div className="city">{this.props.data.stateName}</div>
                 </div>
             </div>
         )

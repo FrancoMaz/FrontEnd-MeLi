@@ -80,7 +80,6 @@ class Results extends React.Component {
     render() {
 
         if (!this.state.searchResponse) {
-            console.log(1);
             return null;
         }
 

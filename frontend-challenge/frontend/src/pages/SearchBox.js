@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.scss';
 import SearchIcon from '../icons/search.svg';
-import { browserHistory } from 'react-router';
 
 class SearchBox extends React.Component {
 

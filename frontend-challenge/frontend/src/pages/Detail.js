@@ -31,6 +31,17 @@ class Detail extends React.Component {
             })
     };
 
+    showDecimals = (item) => {
+      let numberOfDecimals = item.price.decimals;
+      let decimals = '';
+      for (let i = 1; i <= numberOfDecimals; i++) {
+          decimals += '0';
+      }
+
+      return decimals;
+
+    };
+
     showDetail = () => {
         let item = this.state.detailResponse.item;
         //TODO: agregar decimales al precio
@@ -41,7 +52,9 @@ class Detail extends React.Component {
                     <div className="item-data">
                         <div className="condition-and-sold">{item.condition} - {item.soldQuantity} vendidos</div>
                         <div className="title">{item.title}</div>
-                        <div className="price">{item.price.currency} {item.price.amount}</div>
+                        <div className="price">{item.price.currency} {item.price.amount}
+                            <span className="decimals">{this.showDecimals(item)}</span>
+                        </div>
                         <button className="buy-button">Comprar</button>
                     </div>
                 </div>

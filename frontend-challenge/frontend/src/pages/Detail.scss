@@ -35,6 +35,11 @@
 
       .price {
         font-size: 37px;
+        .decimals {
+          font-size: 20px;
+          vertical-align: super;
+        }
+
       }
 
       .buy-button {
