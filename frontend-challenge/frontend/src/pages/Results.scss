@@ -10,7 +10,7 @@
     background-color: #FFFFFF;
     padding: 10px;
     border-bottom: 1px solid;
-    height: 150px;
+    height: auto;
     width: 100%;
 
     .image {
@@ -22,10 +22,10 @@
     .price-title-city {
       display: flex;
       width: calc(100% - 208px);
+      margin-left: 20px;
 
       .price-and-title {
         width: 56%;
-        margin-left: 20px;
         margin-top: 15px;
         font-size: 18px;
 
@@ -60,6 +60,29 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+
+  }
+
+}
+
+@media (max-width: 767px) {
+  .results-page .result {
+    display: block;
+
+    .image {
+      margin-left: 20px;
+    }
+
+    .price-title-city {
+      display: block;
+      width: 100%;
+
+      .price-and-title {
+        width: auto;
+        margin-right: 15px;
+      }
+
     }
 
   }
