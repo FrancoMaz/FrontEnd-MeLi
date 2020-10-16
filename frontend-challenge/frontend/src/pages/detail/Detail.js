@@ -2,6 +2,7 @@ import React from "react";
 import './Detail.scss';
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import SearchBox from "../searchbox/SearchBox";
+import ErrorMessage from "../../components/error/ErrorMessage";
 
 
 class Detail extends React.Component {
@@ -32,13 +33,13 @@ class Detail extends React.Component {
     };
 
     showDecimals = (item) => {
-      let numberOfDecimals = item.price.decimals;
-      let decimals = '';
-      for (let i = 1; i <= numberOfDecimals; i++) {
-          decimals += '0';
-      }
+        let numberOfDecimals = item.price.decimals;
+        let decimals = '';
+        for (let i = 1; i <= numberOfDecimals; i++) {
+            decimals += '0';
+        }
 
-      return decimals;
+        return decimals;
 
     };
 
@@ -69,24 +70,34 @@ class Detail extends React.Component {
     };
 
     showBreadcrumb = () => {
+        console.log(this.state);
         let categories = this.state.detailResponse.item.categories;
         return (
             <Breadcrumb categories={categories}/>
         )
     };
 
-    render() {
-
-        if(!this.state.detailResponse)
-            return null;
-
-        return (
-            <div className="search-and-detail">
-                <SearchBox history={this.props.history}/>
+    showDetailPage = () => {
+        if ((this.state.detailResponse && this.state.detailResponse.error) || !this.state.detailResponse) {
+            return (
+                <ErrorMessage message="Id de item inexistente"/>
+            )
+        } else {
+            return (
                 <div className="detail-page">
                     {this.showBreadcrumb()}
                     {this.showDetail()}
                 </div>
+            )
+        }
+    };
+
+    render() {
+
+        return (
+            <div className="search-and-detail">
+                <SearchBox history={this.props.history}/>
+                {this.showDetailPage()}
             </div>
         )
     }

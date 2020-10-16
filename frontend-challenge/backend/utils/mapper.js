@@ -62,7 +62,7 @@ async function mapItem(items, res, next) {
             currencyServiceResponse = await CurrencyService(item.currency_id);
             //Si el ítem no tiene currency devuelvo un error
             if (!currencyServiceResponse) {
-                next(res.send(400));
+                next(res.send(JSON.stringify({error: "Problemas con la currency", statusCode: 400})));
             }
             currenciesMap.set(item.currency_id, currencyServiceResponse)
         } else {
@@ -79,7 +79,7 @@ async function mapDetailItem(item, description, res, next) {
     let currencyServiceResponse = await CurrencyService(item.currency_id);
     //Si el ítem no tiene currency devuelvo un error
     if (!currencyServiceResponse) {
-        next(res.send(400));
+        next(res.send(JSON.stringify({error: "Problemas con la currency", statusCode: 400})));
     }
     let freeShipping = item.shipping ? item.shipping.free_shipping : false;
     //Aclaración: se agrega categories a la respuesta para poder armar el breadcrumb del ítem en la página de detail
