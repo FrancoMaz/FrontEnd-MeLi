@@ -70,7 +70,6 @@ class Detail extends React.Component {
     };
 
     showBreadcrumb = () => {
-        console.log(this.state);
         let categories = this.state.detailResponse.item.categories;
         return (
             <Breadcrumb categories={categories}/>
@@ -78,10 +77,9 @@ class Detail extends React.Component {
     };
 
     showDetailPage = () => {
-        if ((this.state.detailResponse && this.state.detailResponse.error) || !this.state.detailResponse) {
-            return (
-                <ErrorMessage message="Id de item inexistente"/>
-            )
+        if (!this.state.detailResponse || (this.state.detailResponse && this.state.detailResponse.error)) {
+            return (this.state.detailResponse && this.state.detailResponse.error) ?
+                <ErrorMessage message={this.state.detailResponse.error}/> : null;
         } else {
             return (
                 <div className="detail-page">

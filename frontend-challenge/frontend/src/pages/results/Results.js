@@ -87,8 +87,12 @@ class Results extends React.Component {
     showResults = () => {
       if (!this.state.searchResponse || (this.state.searchResponse && this.state.searchResponse.error) ||
           (this.state.searchResponse && this.state.searchResponse.items.length === 0)) {
+          let message = (this.state.searchResponse && this.state.searchResponse.items && this.state.searchResponse.items.length === 0) ?
+              "No se pudieron encontrar resultados. Por favor intente otra búsqueda" :
+              ((this.state.searchResponse && this.state.searchResponse.error) ?
+              this.state.searchResponse.error : "Error en la página de resultados");
           return (
-              <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
+              <ErrorMessage message={message}/>
           )
       } else {
           return (
