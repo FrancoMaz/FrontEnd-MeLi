@@ -1,8 +1,9 @@
 import React from "react";
 import './Results.scss';
-import Result from "./components/Result";
-import Breadcrumb from "./components/Breadcrumb";
-import SearchBox from "./SearchBox";
+import Result from "../../components/result/Result";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
+import SearchBox from "../searchbox/SearchBox";
+import ErrorMessage from "../../components/error/ErrorMessage";
 
 class Results extends React.Component {
 
@@ -86,9 +87,7 @@ class Results extends React.Component {
     showResults = () => {
       if (this.state.searchResponse.items.length === 0) {
           return (
-              <div className="results-page">
-                No se pudieron encontrar resultados. Por favor intente otra búsqueda
-              </div>
+              <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
           )
       } else {
           return (

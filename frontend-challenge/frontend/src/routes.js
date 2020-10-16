@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch} from 'react-router-dom';
-import SearchBox from "./pages/SearchBox";
-import Results from "./pages/Results";
-import Detail from "./pages/Detail";
+import SearchBox from "./pages/searchbox/SearchBox";
+import Results from "./pages/results/Results";
+import Detail from "./pages/detail/Detail";
 
 export const Routes = () => {
     return (

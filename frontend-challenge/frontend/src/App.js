@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.scss';
+import './pages/searchbox/SearchBox.scss';
 import { FaSearch } from 'react-icons/fa';
 
 

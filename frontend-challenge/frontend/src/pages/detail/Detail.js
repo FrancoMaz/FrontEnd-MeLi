@@ -1,7 +1,7 @@
 import React from "react";
 import './Detail.scss';
-import Breadcrumb from "./components/Breadcrumb";
-import SearchBox from "./SearchBox";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
+import SearchBox from "../searchbox/SearchBox";
 
 
 class Detail extends React.Component {
