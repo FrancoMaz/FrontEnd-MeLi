@@ -44,6 +44,12 @@ class Detail extends React.Component {
 
     showDetail = () => {
         let item = this.state.detailResponse.item;
+        let description = item.description ?
+            <div className="description-section">
+                <div className="description-title">Descripción del producto</div>
+                <div className="description">{item.description}</div>
+            </div> : null;
+
         return (
             <div className="detail-product">
                 <div className="image-and-item-data">
@@ -57,8 +63,7 @@ class Detail extends React.Component {
                         <button className="buy-button">Comprar</button>
                     </div>
                 </div>
-                <div className="description-title">Descripción del producto</div>
-                <div className="description">{item.description}</div>
+                {description}
             </div>
         )
     };

@@ -12,7 +12,6 @@ class Result extends React.Component {
     };
 
     render() {
-        //TODO: traer la ciudad del seller del servicio
         return (
             <div className="result">
                 <img className="image" src={this.props.data.picture}/>
