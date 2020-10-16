@@ -5,8 +5,8 @@ const ItemModel = require("../model/ItemModel").ItemModel;
 const CurrencyService = require("../service/currencyService");
 const CategoryService = require("../service/categoryService");
 
-
-async function mapSearch(search) {
+//TODO: refactorizar/modularizar el mapper
+async function mapSearch(search, res, next) {
 
     let categories = search.available_filters.filter(filter => filter.id === "category");
 
@@ -15,13 +15,13 @@ async function mapSearch(search) {
     return new SearchModel(
         {name: "Franco", lastname: "Mazzoni"},
         categoriesToReturn,
-        await mapItem(search.results)).toJson()
+        await mapItem(search.results, res, next)).toJson()
 }
 
-async function mapDetail(item, description) {
+async function mapDetail(item, description, res, next) {
     return new DetailModel(
         {name: "Franco", lastname: "Mazzoni"},
-        await mapDetailItem(item, description)).toJson()
+        await mapDetailItem(item, description, res, next)).toJson()
 }
 
 function sortCategories(categories) {
@@ -31,7 +31,12 @@ function sortCategories(categories) {
 async function mapCategories(categoryId) {
     let categoriesNames = [];
     let categoryServiceResponse = await CategoryService(categoryId);
-    categoryServiceResponse.path_from_root.forEach(category => { //Path_from_root contiene las categorías a devolver en el endpoint, que son las que se deben mostrar en el breadcrumb
+    //Si no vienen las categorías, no devuelvo error pero devuelvo un vector vacío
+    if (!categoryServiceResponse) {
+        return categoriesNames;
+    }
+    //Path_from_root contiene las categorías a devolver en el endpoint, que son las que se deben mostrar en el breadcrumb
+    categoryServiceResponse.path_from_root.forEach(category => {
         categoriesNames.push(category.name);
     });
     return categoriesNames;
@@ -47,13 +52,18 @@ function mapPrice(price, currency) {
     return new PriceModel(currency.symbol, price, currency.decimal_places).toJson()
 }
 
-async function mapItem(items) {
+async function mapItem(items, res, next) {
     let itemResponses = [];
-    let currenciesMap = new Map(); //Uso un mapa para almacenar las currencies y no tener que ir al servicio por cada ítem. Key: currency_id, Value: respuesta del servicio
+    //Uso un mapa para almacenar las currencies y no tener que ir al servicio por cada ítem. Key: currency_id, Value: respuesta del servicio
+    let currenciesMap = new Map();
     let currencyServiceResponse;
     for (let item of items) {
         if (!currenciesMap.has(item.currency_id)) {
             currencyServiceResponse = await CurrencyService(item.currency_id);
+            //Si el ítem no tiene currency devuelvo un error
+            if (!currencyServiceResponse) {
+                next(res.send(400));
+            }
             currenciesMap.set(item.currency_id, currencyServiceResponse)
         } else {
             currencyServiceResponse = currenciesMap.get(item.currency_id)
@@ -65,8 +75,12 @@ async function mapItem(items) {
     return itemResponses
 }
 
-async function mapDetailItem(item, description) {
+async function mapDetailItem(item, description, res, next) {
     let currencyServiceResponse = await CurrencyService(item.currency_id);
+    //Si el ítem no tiene currency devuelvo un error
+    if (!currencyServiceResponse) {
+        next(res.send(400));
+    }
     let freeShipping = item.shipping ? item.shipping.free_shipping : false;
     //Aclaración: se agrega categories a la respuesta para poder armar el breadcrumb del ítem en la página de detail
     return new ItemModel(item.id, item.title, mapPrice(item.price, currencyServiceResponse), item.thumbnail, item.condition, freeShipping,

@@ -25,31 +25,38 @@ let cache = (duration) => {
     }
 };
 
-//TODO: manejar errores de servicio y agregar caché
+//TODO: manejar errores de servicio
 
 router.get('/', cache(timeoutCache), (req, res, next) => {
 
     const query = req.query.q;
 
-    request("https://api.mercadolibre.com/sites/MLA/search?q=" + query, { json: true }, async (err, response, bodySearch) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        let searchResponse = await mapSearch(bodySearch);
-        res.send(JSON.stringify(searchResponse));
-    });
+    try {
+        request("https://api.mercadolibre.com/sites/MLA/search?q=" + query, {json: true}, async (err, response, bodySearch) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            let searchResponse = await mapSearch(bodySearch, res, next);
+            res.send(JSON.stringify(searchResponse));
+        });
+    } catch (err) {
+        return next();
+    }
 });
 
 router.get('/:id', cache(timeoutCache), (req, res, next) => {
 
-    request("https://api.mercadolibre.com/items/" + req.params.id, { json: true }, async (err, response, bodyItem) => {
-        request("https://api.mercadolibre.com/items/" + req.params.id + "/description", { json: true }, async (err, response, bodyDescription) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            let detailResponse = await mapDetail(bodyItem, bodyDescription);
-            res.send(JSON.stringify(detailResponse));
+    try {
+        request("https://api.mercadolibre.com/items/" + req.params.id, {json: true}, async (err, response, bodyItem) => {
+            request("https://api.mercadolibre.com/items/" + req.params.id + "/description", {json: true}, async (err, response, bodyDescription) => {
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                let detailResponse = await mapDetail(bodyItem, bodyDescription, res, next);
+                res.send(JSON.stringify(detailResponse));
+            });
         });
-    });
-
+    } catch (err) {
+        return next()
+    }
 
 });
 

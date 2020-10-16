@@ -44,7 +44,6 @@ class Detail extends React.Component {
 
     showDetail = () => {
         let item = this.state.detailResponse.item;
-        //TODO: agregar decimales al precio
         return (
             <div className="detail-product">
                 <div className="image-and-item-data">

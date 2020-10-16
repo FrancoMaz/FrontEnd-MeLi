@@ -19,6 +19,12 @@ class Results extends React.Component {
         this.getSearchResponse();
     }
 
+    componentDidUpdate(prevprops, prevState) {
+        if (this.props.location.search !== prevprops.location.search) {
+            this.getSearchResponse();
+        }
+    }
+
     getSearchResponse = () => {
         let params = new URLSearchParams(this.props.location.search);
 
@@ -77,6 +83,24 @@ class Results extends React.Component {
         )
     };
 
+    showResults = () => {
+      if (this.state.searchResponse.items.length === 0) {
+          return (
+              <div className="results-page">
+                No se pudieron encontrar resultados. Por favor intente otra búsqueda
+              </div>
+          )
+      } else {
+          return (
+              <div className="results-page">
+                  {this.showBreadcrumb()}
+                  {this.showClusterResults()}
+                  {this.showPages()}
+              </div>
+          )
+      }
+    };
+
     render() {
 
         if (!this.state.searchResponse) {
@@ -86,11 +110,7 @@ class Results extends React.Component {
         return (
             <div className="search-and-results">
                 <SearchBox history={this.props.history}/>
-                <div className="results-page">
-                    {this.showBreadcrumb()}
-                    {this.showClusterResults()}
-                    {this.showPages()}
-                </div>
+                {this.showResults()}
             </div>
         );
     };
