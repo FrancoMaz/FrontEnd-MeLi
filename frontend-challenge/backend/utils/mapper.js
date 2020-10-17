@@ -3,7 +3,6 @@ const DetailModel = require("../model/DetailModel").DetailModel;
 const PriceModel = require("../model/PriceModel").PriceModel;
 const ItemModel = require("../model/ItemModel").ItemModel;
 const CurrencyService = require("../service/currencyService");
-const CategoryService = require("../service/categoryService");
 
 //TODO: refactorizar/modularizar el mapper
 async function mapSearch(search, res, next) {
@@ -22,30 +21,6 @@ async function mapDetail(item, description, res, next) {
     return new DetailModel(
         {name: "Franco", lastname: "Mazzoni"},
         await mapDetailItem(item, description, res, next)).toJson()
-}
-
-function sortCategories(categories) {
-    return categories.sort((a, b) => (a.results < b.results) ? 1 : -1); //Ordeno para quedarme con la categoría que tiene más resultados
-}
-
-async function mapCategories(categoryId) {
-    let categoriesNames = [];
-    let categoryServiceResponse = await CategoryService(categoryId);
-    //Si no vienen las categorías, no devuelvo error pero devuelvo un vector vacío
-    if (!categoryServiceResponse) {
-        return categoriesNames;
-    }
-    //Path_from_root contiene las categorías a devolver en el endpoint, que son las que se deben mostrar en el breadcrumb
-    categoryServiceResponse.path_from_root.forEach(category => {
-        categoriesNames.push(category.name);
-    });
-    return categoriesNames;
-}
-
-async function sortAndMapCategories(categories) {
-    let categoriesSorted = sortCategories(categories);
-    return await mapCategories(categoriesSorted[0].id)
-
 }
 
 function mapPrice(price, currency) {

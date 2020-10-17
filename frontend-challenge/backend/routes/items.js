@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const request = require('superagent');
-const mapResults = require('../utils/mapper');
-const mapSearch = mapResults.mapSearch;
-const mapDetail = mapResults.mapDetail;
-const DescriptionService = require("../service/descriptionService");
 const mcache = require("memory-cache");
+
+const mapSearch = require('../utils/mapper/searchMapper').mapSearch;
+const mapDetail = require('../utils/mapper/detailMapper').mapDetail;
+const DescriptionService = require("../service/descriptionService");
+const SearchService = require("../service/searchService");
+const ItemService = require("../service/itemService");
 
 const timeoutCache = 10;
 
@@ -26,56 +27,39 @@ let cache = (duration) => {
     }
 };
 
-router.get('/', cache(timeoutCache), (req, res, next) => {
+router.get('/', cache(timeoutCache), async (req, res, next) => {
 
-    const query = req.query.q;
+    let body = await SearchService(req.query.q, res);
 
-    request.get("https://api.mercadolibre.com/sites/MLA/search?q=" + query).timeout(10000)
-        .ok(res => res.status < 400 || res.status === 404)
-        .then(async response => {
+    if (body.error) {
+        next(res.send(JSON.stringify({error: body.message, status: body.status})))
+    }
 
-            let body = response.body;
-            if (body.error) {
-                next(res.send(JSON.stringify({error: body.message, status: body.status})))
-            }
+    let searchResponse = await mapSearch(body, res, next);
 
-            let searchResponse = await mapSearch(body, res, next);
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-            res.setHeader('Content-Type', 'application/json');
-            res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send(JSON.stringify(searchResponse));
 
-            res.send(JSON.stringify(searchResponse));
-        })
-        .catch(err => {
-            return next(res.send(JSON.stringify({
-                error: "Error temporal. Intente nuevamente más tarde",
-                statusCode: 500
-            })));
-        })
 });
 
-router.get('/:id', cache(timeoutCache), (req, res, next) => {
+router.get('/:id', cache(timeoutCache), async (req, res, next) => {
 
-    request.get("https://api.mercadolibre.com/items/" + req.params.id).timeout(10000)
-        .ok(res => res.status < 400 || res.status === 404)
-        .then(async response => {
-            let bodyItem = response.body;
-            if (bodyItem.error) {
-                next(res.send(JSON.stringify({error: bodyItem.message, status: bodyItem.status})))
-            }
-            let description = await DescriptionService(req.params.id, res);
+    let bodyItem = await ItemService(req.params.id, res);
 
-            let detailResponse = await mapDetail(bodyItem, description, res, next);
+    if (bodyItem.error) {
+        next(res.send(JSON.stringify({error: bodyItem.message, status: bodyItem.status})))
+    }
+    let description = await DescriptionService(req.params.id);
 
-            res.setHeader('Content-Type', 'application/json');
-            res.setHeader('Access-Control-Allow-Origin', '*');
+    let detailResponse = await mapDetail(bodyItem, description, res, next);
 
-            res.send(JSON.stringify(detailResponse));
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-        })
-        .catch(err => {
-            next(res.send(JSON.stringify({error: "Error temporal. Intente nuevamente más tarde", status: 500})))
-        });
+    res.send(JSON.stringify(detailResponse));
+
 });
 
 module.exports = router;
