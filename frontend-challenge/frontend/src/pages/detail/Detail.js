@@ -2,6 +2,7 @@ import React from "react";
 import './Detail.scss';
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import SearchBox from "../searchbox/SearchBox";
+import ErrorMessage from "../../components/error/ErrorMessage";
 
 
 class Detail extends React.Component {
@@ -32,13 +33,13 @@ class Detail extends React.Component {
     };
 
     showDecimals = (item) => {
-      let numberOfDecimals = item.price.decimals;
-      let decimals = '';
-      for (let i = 1; i <= numberOfDecimals; i++) {
-          decimals += '0';
-      }
+        let numberOfDecimals = item.price.decimals;
+        let decimals = '';
+        for (let i = 1; i <= numberOfDecimals; i++) {
+            decimals += '0';
+        }
 
-      return decimals;
+        return decimals;
 
     };
 
@@ -75,18 +76,24 @@ class Detail extends React.Component {
         )
     };
 
-    render() {
+    showDetailPage = () => {
 
-        if(!this.state.detailResponse)
-            return null;
+        if (!this.state.detailResponse) return null;
+
+        return (this.state.detailResponse.error) ?
+            <ErrorMessage message={this.state.detailResponse.error}/> :
+            <div className="detail-page">
+                {this.showBreadcrumb()}
+                {this.showDetail()}
+            </div>
+    };
+
+    render() {
 
         return (
             <div className="search-and-detail">
                 <SearchBox history={this.props.history}/>
-                <div className="detail-page">
-                    {this.showBreadcrumb()}
-                    {this.showDetail()}
-                </div>
+                {this.showDetailPage()}
             </div>
         )
     }

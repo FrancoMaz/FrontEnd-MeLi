@@ -1,7 +1,7 @@
 var express = require('express');
 var cors = require('cors');
 
-var itemsRouter = require('./routes/items');
+var itemsRouter = require('./src/routes/items');
 
 var app = express();
 
@@ -19,9 +19,7 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;

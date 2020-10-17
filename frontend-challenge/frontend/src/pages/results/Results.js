@@ -12,7 +12,8 @@ class Results extends React.Component {
         this.state = {
             searchResponse: null,
             actualPage: 1,
-            resultsPerPage: 4
+            resultsPerPage: 4,
+            errorMessage: ''
         };
     }
 
@@ -38,7 +39,7 @@ class Results extends React.Component {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                this.setState({searchResponse: response})
+                this.setState({searchResponse: response});
             })
     };
 
@@ -85,26 +86,27 @@ class Results extends React.Component {
     };
 
     showResults = () => {
-      if (this.state.searchResponse.items.length === 0) {
-          return (
-              <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
-          )
-      } else {
-          return (
-              <div className="results-page">
-                  {this.showBreadcrumb()}
-                  {this.showClusterResults()}
-                  {this.showPages()}
-              </div>
-          )
-      }
+
+        if (!this.state.searchResponse) return null;
+
+        if (this.state.searchResponse.error) {
+            return <ErrorMessage message={this.state.searchResponse.error}/>
+        }
+
+        if (this.state.searchResponse.items.length === 0) {
+            return <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
+        }
+
+        return ((this.state.errorMessage === '') ?
+            <div className="results-page">
+                {this.showBreadcrumb()}
+                {this.showClusterResults()}
+                {this.showPages()}
+            </div> : null
+        )
     };
 
     render() {
-
-        if (!this.state.searchResponse) {
-            return null;
-        }
 
         return (
             <div className="search-and-results">

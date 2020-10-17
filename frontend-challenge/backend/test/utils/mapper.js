@@ -5,7 +5,7 @@ import {
     sortAndMapCategories,
     mapDetailItem,
     mapItem, mapSearch, mapDetail
-} from "../../utils/mapper";
+} from "../../src/utils/mapper";
 
 test('MapPrice should return a json with currency, amount and decimals', () => {
 
