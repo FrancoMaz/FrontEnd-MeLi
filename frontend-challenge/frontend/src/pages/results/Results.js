@@ -4,6 +4,7 @@ import Result from "../../components/result/Result";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import SearchBox from "../searchbox/SearchBox";
 import ErrorMessage from "../../components/error/ErrorMessage";
+import {properties} from "../../utils/properties.js";
 
 class Results extends React.Component {
 
@@ -44,6 +45,7 @@ class Results extends React.Component {
 
     showClusterResults = () => {
         let items = this.state.searchResponse.items;
+
         //En itemPage se agrega el cálculo para saber en qué página debe estar cada ítem.
         //Si un ítem no pertenece a la página no se renderiza el componente Result
         //Decidió hacerse esto en el front ya que lo considero algo visual más que de negocio
@@ -96,7 +98,7 @@ class Results extends React.Component {
         }
 
         if (this.state.searchResponse.items.length === 0) {
-            return <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
+            return <ErrorMessage message={properties.errors.noItemsFound}/>
         }
 
         return (

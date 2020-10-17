@@ -3,7 +3,7 @@ import './Detail.scss';
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import SearchBox from "../searchbox/SearchBox";
 import ErrorMessage from "../../components/error/ErrorMessage";
-
+import {properties} from "../../utils/properties.js";
 
 class Detail extends React.Component {
 
@@ -47,7 +47,7 @@ class Detail extends React.Component {
         let item = this.state.detailResponse.item;
         let description = item.description ?
             <div className="description-section">
-                <div className="description-title">Descripción del producto</div>
+                <div className="description-title">{properties.text.description}</div>
                 <div className="description">{item.description}</div>
             </div> : null;
 
@@ -56,12 +56,12 @@ class Detail extends React.Component {
                 <div className="image-and-item-data">
                     <img className="image" alt={item.title} title={item.title} src={item.picture}/>
                     <div className="item-data">
-                        <div className="condition-and-sold">{item.condition} - {item.soldQuantity} vendidos</div>
+                        <div className="condition-and-sold">{properties.text[item.condition]} - {item.soldQuantity} {properties.text.sold}</div>
                         <h2 className="title">{item.title}</h2>
                         <div className="price">{item.price.currency} {item.price.amount}
                             <span className="decimals">{this.showDecimals(item)}</span>
                         </div>
-                        <button className="buy-button">Comprar</button>
+                        <button className="buy-button">{properties.text.buy}</button>
                     </div>
                 </div>
                 {description}
