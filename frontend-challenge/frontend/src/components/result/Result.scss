@@ -11,6 +11,7 @@
     width: 140px;
     height: 140px;
     border: 1px solid;
+    cursor: pointer;
   }
 
   .price-title-city {
@@ -29,6 +30,9 @@
 
       .title {
         cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
       }
 
     }

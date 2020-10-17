@@ -3,10 +3,6 @@ import './Breadcrumb.scss';
 
 class Breadcrumb extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let categories = this.props.categories;
         let separator = ">";

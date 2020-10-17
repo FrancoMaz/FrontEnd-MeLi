@@ -41,7 +41,7 @@ class SearchBox extends React.Component {
                     <div className="input-and-search">
                         <input className="search-input" type="search" placeholder="Nunca dejes de buscar" onChange={this.handleInputChange}/>
                         <div className="search-button" onClick={() => this.handleClick("/items?search=" + this.state.query)}>
-                            <img src={SearchIcon}/>
+                            <img src={SearchIcon} alt="search"/>
                         </div>
                     </div>
                 </div>

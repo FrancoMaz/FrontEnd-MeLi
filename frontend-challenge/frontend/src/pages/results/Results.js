@@ -12,8 +12,7 @@ class Results extends React.Component {
         this.state = {
             searchResponse: null,
             actualPage: 1,
-            resultsPerPage: 4,
-            errorMessage: ''
+            resultsPerPage: 4
         };
     }
 
@@ -45,10 +44,13 @@ class Results extends React.Component {
 
     showClusterResults = () => {
         let items = this.state.searchResponse.items;
+        //En itemPage se agrega el cálculo para saber en qué página debe estar cada ítem.
+        //Si un ítem no pertenece a la página no se renderiza el componente Result
+        //Decidió hacerse esto en el front ya que lo considero algo visual más que de negocio
         return (
             <div className="cluster-results">
                 {items.map((item, index) => {
-                    let itemPage = Math.floor((index)/this.state.resultsPerPage + 1); //Es el cálculo para saber en qué página debe estar cada ítem. Si un ítem no pertenece a la página no se renderiza el componente Result
+                    let itemPage = Math.floor((index)/this.state.resultsPerPage + 1);
                     return (
                         (itemPage === this.state.actualPage) ?
                             <Result data={item} history={this.props.history}/> : ""
@@ -70,7 +72,7 @@ class Results extends React.Component {
     };
 
     showPages = () => {
-        let lastPage = Math.floor((this.state.searchResponse.items.length / 4) + 1);
+        let lastPage = Math.floor((this.state.searchResponse.items.length / this.state.resultsPerPage) + 1);
         //Creo un array de n posiciones (siendo n la última página). Como el array empieza en 0 tengo que aumentar los valores en 1
         let pagesToShow = [...Array(lastPage).keys()];
         return (
@@ -97,12 +99,12 @@ class Results extends React.Component {
             return <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
         }
 
-        return ((this.state.errorMessage === '') ?
+        return (
             <div className="results-page">
                 {this.showBreadcrumb()}
                 {this.showClusterResults()}
                 {this.showPages()}
-            </div> : null
+            </div>
         )
     };
 

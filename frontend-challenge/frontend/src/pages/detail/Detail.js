@@ -54,10 +54,10 @@ class Detail extends React.Component {
         return (
             <div className="detail-product">
                 <div className="image-and-item-data">
-                    <img className="image" src={item.picture}/>
+                    <img className="image" alt={item.title} title={item.title} src={item.picture}/>
                     <div className="item-data">
                         <div className="condition-and-sold">{item.condition} - {item.soldQuantity} vendidos</div>
-                        <div className="title">{item.title}</div>
+                        <h2 className="title">{item.title}</h2>
                         <div className="price">{item.price.currency} {item.price.amount}
                             <span className="decimals">{this.showDecimals(item)}</span>
                         </div>
