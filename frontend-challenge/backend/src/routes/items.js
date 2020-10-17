@@ -8,6 +8,8 @@ const DescriptionService = require("../service/descriptionService");
 const SearchService = require("../service/searchService");
 const ItemService = require("../service/itemService");
 
+const jsonConfig = require('../../resources/config.json');
+
 const timeoutCache = 10;
 
 let cache = (duration) => {
@@ -29,11 +31,14 @@ let cache = (duration) => {
 
 router.get('/', cache(timeoutCache), async (req, res, next) => {
 
-    let body = await SearchService(req.query.q, res);
+    let query = req.query.q;
 
-    if (body.error) {
-        next(res.send(JSON.stringify({error: body.message, status: body.status})))
+    if (!query) {
+        let error = jsonConfig.errors.badRequest;
+        res.status(error.statusCode).send({ error: error.message.replace("${param}", "q") });
     }
+
+    let body = await SearchService(req.query.q, res);
 
     let searchResponse = await mapSearch(body, res, next);
 
@@ -48,9 +53,6 @@ router.get('/:id', cache(timeoutCache), async (req, res, next) => {
 
     let bodyItem = await ItemService(req.params.id, res);
 
-    if (bodyItem.error) {
-        next(res.send(JSON.stringify({error: bodyItem.message, status: bodyItem.status})))
-    }
     let description = await DescriptionService(req.params.id);
 
     let detailResponse = await mapDetail(bodyItem, description, res, next);

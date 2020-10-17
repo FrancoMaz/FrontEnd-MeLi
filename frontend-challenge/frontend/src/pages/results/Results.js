@@ -12,7 +12,8 @@ class Results extends React.Component {
         this.state = {
             searchResponse: null,
             actualPage: 1,
-            resultsPerPage: 4
+            resultsPerPage: 4,
+            errorMessage: ''
         };
     }
 
@@ -36,9 +37,16 @@ class Results extends React.Component {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
+            .catch(error => this.setState({errorMessage: "Hubo un error. Por favor, intente nuevamente más tarde"}))
             .then(response => {
-                this.setState({searchResponse: response})
+                this.setState({searchResponse: response});
+                if (response.error) {
+                    this.setState({errorMessage: response.error})
+                } else if (response.items.length === 0) {
+                    this.setState({errorMessage: "No se pudieron encontrar resultados. Por favor intente otra búsqueda"})
+                } else {
+                    this.setState({errorMessage: ''})
+                }
             })
     };
 
@@ -85,35 +93,28 @@ class Results extends React.Component {
     };
 
     showResults = () => {
-      if (!this.state.searchResponse || (this.state.searchResponse && this.state.searchResponse.error) ||
-          (this.state.searchResponse && this.state.searchResponse.items.length === 0)) {
-          let message = (this.state.searchResponse && this.state.searchResponse.items && this.state.searchResponse.items.length === 0) ?
-              "No se pudieron encontrar resultados. Por favor intente otra búsqueda" :
-              ((this.state.searchResponse && this.state.searchResponse.error) ?
-              this.state.searchResponse.error : "Error en la página de resultados");
-          return (
-              <ErrorMessage message={message}/>
-          )
-      } else {
-          return (
-              <div className="results-page">
-                  {this.showBreadcrumb()}
-                  {this.showClusterResults()}
-                  {this.showPages()}
-              </div>
-          )
-      }
+
+        if (!this.state.searchResponse) return null;
+
+        return ((this.state.errorMessage === '') ?
+            <div className="results-page">
+                {this.showBreadcrumb()}
+                {this.showClusterResults()}
+                {this.showPages()}
+            </div> : null
+        )
+    };
+
+    showErrors = () => {
+        return (this.state.errorMessage !== '') ? <ErrorMessage message={this.state.errorMessage}/> : null;
     };
 
     render() {
 
-        if (!this.state.searchResponse) {
-            return null;
-        }
-
         return (
             <div className="search-and-results">
                 <SearchBox history={this.props.history}/>
+                {this.showErrors()}
                 {this.showResults()}
             </div>
         );

@@ -1,7 +1,7 @@
 var express = require('express');
 var cors = require('cors');
 
-var itemsRouter = require('./routes/items');
+var itemsRouter = require('./src/routes/items');
 
 var app = express();
 

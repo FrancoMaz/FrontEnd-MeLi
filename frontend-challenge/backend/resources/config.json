@@ -1,0 +1,24 @@
+{
+  "author": {
+    "name": "Franco",
+    "lastname": "Mazzoni"
+  },
+  "errors": {
+    "serviceError": {
+      "message": "Error temporal. Intente nuevamente más tarde",
+      "statusCode": 500
+    },
+    "currencyError": {
+      "message": "No se pudo encontrar la currency del ítem pedido",
+      "statusCode": 404
+    },
+    "itemNotFound": {
+      "message": "No se pudo encontrar el ítem pedido",
+      "statusCode": 404
+    },
+    "badRequest": {
+      "message": "Error en la url. El parámetro ${param} es requerido",
+      "statusCode": 400
+    }
+  }
+}

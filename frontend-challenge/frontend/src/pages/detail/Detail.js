@@ -77,17 +77,15 @@ class Detail extends React.Component {
     };
 
     showDetailPage = () => {
-        if (!this.state.detailResponse || (this.state.detailResponse && this.state.detailResponse.error)) {
-            return (this.state.detailResponse && this.state.detailResponse.error) ?
-                <ErrorMessage message={this.state.detailResponse.error}/> : null;
-        } else {
-            return (
-                <div className="detail-page">
-                    {this.showBreadcrumb()}
-                    {this.showDetail()}
-                </div>
-            )
-        }
+
+        if (!this.state.detailResponse) return null;
+
+        return (this.state.detailResponse.error) ?
+            <ErrorMessage message={this.state.detailResponse.error}/> :
+            <div className="detail-page">
+                {this.showBreadcrumb()}
+                {this.showDetail()}
+            </div>
     };
 
     render() {

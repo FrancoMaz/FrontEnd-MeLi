@@ -3,24 +3,26 @@ const mapPrice = require("./priceMapper").mapPrice;
 const SearchModel = require("../../model/SearchModel").SearchModel;
 const ItemModel = require("../../model/ItemModel").ItemModel;
 
-async function mapSearch(search, res, next) {
+const jsonConfig = require('../../../resources/config.json');
+
+async function mapSearch(search, res) {
 
     let categories = search.available_filters.filter(filter => filter.id === "category");
 
     let categoriesToReturn = categories.length > 0 ? await sortAndMapCategories(search.available_filters[0].values) : [];
 
     return new SearchModel(
-        {name: "Franco", lastname: "Mazzoni"},
+        jsonConfig.author,
         categoriesToReturn,
-        await mapResultsItem(search.results, res, next)).toJson()
+        await mapResultsItem(search.results, res)).toJson()
 }
 
-async function mapResultsItem(items, res, next) {
+async function mapResultsItem(items, res) {
     let itemResponses = [];
 
     for (let item of items) {
         //Hago el replace en el thumbnail (imagen) para que me traiga la imagen de 90x90
-        itemResponses.push(new ItemModel(item.id, item.title, await mapPrice(item.price, item.currency_id, res, next),
+        itemResponses.push(new ItemModel(item.id, item.title, await mapPrice(item.price, item.currency_id, res),
             item.thumbnail.replace("-O.jpg", "-I.jpg"), item.condition, item.shipping.free_shipping, item.address.state_name).toJson());
     }
     return itemResponses

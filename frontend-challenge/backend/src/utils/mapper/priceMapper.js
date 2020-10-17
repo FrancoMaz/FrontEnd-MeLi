@@ -6,14 +6,10 @@ let currenciesMap = new Map();
 
 async function mapPrice(price, currencyId, res, next) {
 
-    let currencyServiceResponse = !currenciesMap.has(currencyId) ? await CurrencyService(currencyId) : currenciesMap.get(currencyId);
+    let currencyServiceResponse = !currenciesMap.has(currencyId) ? await CurrencyService(currencyId, res, next) : currenciesMap.get(currencyId);
 
     if (!currenciesMap.hasCurrencyId) {
         currenciesMap.set(currencyId, currencyServiceResponse)
-    }
-
-    if (!currencyServiceResponse) {
-        next(res.send(JSON.stringify({error: "Problemas con la currency", statusCode: 400})));
     }
 
     return new PriceModel(currencyServiceResponse.symbol, price, currencyServiceResponse.decimal_places).toJson()

@@ -1,4 +1,3 @@
-'use strict';
 const request = require("superagent");
 
 module.exports = async (itemId) => {
