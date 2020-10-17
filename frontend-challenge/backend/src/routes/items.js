@@ -40,6 +40,11 @@ router.get('/', cache(timeoutCache), async (req, res, next) => {
 
     let body = await SearchService(req.query.q, res);
 
+    if (!body) {
+        let error = jsonConfig.errors.serviceError;
+        res.status(error.statusCode).send({ error: error.message });
+    }
+
     let searchResponse = await mapSearch(body, res, next);
 
     res.setHeader('Content-Type', 'application/json');
@@ -52,6 +57,11 @@ router.get('/', cache(timeoutCache), async (req, res, next) => {
 router.get('/:id', cache(timeoutCache), async (req, res, next) => {
 
     let bodyItem = await ItemService(req.params.id, res);
+
+    if (!bodyItem) {
+        let error = jsonConfig.errors.serviceError;
+        res.status(error.statusCode).send({ error: error.message });
+    }
 
     let description = await DescriptionService(req.params.id);
 

@@ -37,16 +37,9 @@ class Results extends React.Component {
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())
-            .catch(error => this.setState({errorMessage: "Hubo un error. Por favor, intente nuevamente más tarde"}))
+            .catch(error => console.error('Error:', error))
             .then(response => {
                 this.setState({searchResponse: response});
-                if (response.error) {
-                    this.setState({errorMessage: response.error})
-                } else if (response.items.length === 0) {
-                    this.setState({errorMessage: "No se pudieron encontrar resultados. Por favor intente otra búsqueda"})
-                } else {
-                    this.setState({errorMessage: ''})
-                }
             })
     };
 
@@ -96,6 +89,14 @@ class Results extends React.Component {
 
         if (!this.state.searchResponse) return null;
 
+        if (this.state.searchResponse.error) {
+            return <ErrorMessage message={this.state.searchResponse.error}/>
+        }
+
+        if (this.state.searchResponse.items.length === 0) {
+            return <ErrorMessage message="No se pudieron encontrar resultados. Por favor intente otra búsqueda"/>
+        }
+
         return ((this.state.errorMessage === '') ?
             <div className="results-page">
                 {this.showBreadcrumb()}
@@ -105,16 +106,11 @@ class Results extends React.Component {
         )
     };
 
-    showErrors = () => {
-        return (this.state.errorMessage !== '') ? <ErrorMessage message={this.state.errorMessage}/> : null;
-    };
-
     render() {
 
         return (
             <div className="search-and-results">
                 <SearchBox history={this.props.history}/>
-                {this.showErrors()}
                 {this.showResults()}
             </div>
         );
