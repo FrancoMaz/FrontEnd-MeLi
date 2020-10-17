@@ -1,0 +1,59 @@
+{
+  "available_filters": [
+    {
+      "id": "category",
+      "values": [
+        {
+          "id": "ML2",
+          "title": "Celulares",
+          "results": 200
+        },
+        {
+          "id": "MLA412445",
+          "title": "Libros",
+          "results": 250
+        },
+        {
+          "id": "ML3",
+          "title": "Electrónica",
+          "results": 5
+        }
+      ]
+    }
+
+  ],
+  "results": [
+    {
+      "id": "ML1",
+      "title": "Libro 1",
+      "price": 3500,
+      "thumbnail": "http://image.jpg",
+      "currency_id": "ARS",
+      "shipping": {
+        "free_shipping": true
+      },
+      "address": {
+        "state_name": "Buenos Aires"
+      },
+      "condition": "new",
+      "sold_quantity": 20,
+      "category_id": "MLA412445"
+    },
+    {
+      "id": "ML2",
+      "title": "Libro 2",
+      "price": 4500,
+      "thumbnail": "http://image2.jpg",
+      "currency_id": "ARS",
+      "shipping": {
+        "free_shipping": true
+      },
+      "address": {
+        "state_name": "Mendoza"
+      },
+      "condition": "new",
+      "sold_quantity": 5,
+      "category_id": "MLA412445"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ML1",
+  "title": "Libro 1",
+  "price": 3500,
+  "thumbnail": "http://image.jpg",
+  "currency_id": "ARS",
+  "shipping": {
+    "free_shipping": true
+  },
+  "condition": "new",
+  "sold_quantity": 20,
+  "category_id": "MLA412445"
+}

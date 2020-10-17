@@ -1,0 +1,38 @@
+{
+  "author": {
+    "name": "Franco",
+    "lastname": "Mazzoni"
+  },
+  "categories": [
+    "Libros, Revistas y Comics",
+    "Libros"
+  ],
+  "items": [
+    {
+      "id": "ML1",
+      "title": "Libro 1",
+      "price": {
+        "currency": "$",
+        "amount": 3500,
+        "decimals": 2
+      },
+      "picture": "http://image.jpg",
+      "condition": "new",
+      "freeShipping": true,
+      "stateName": "Buenos Aires"
+    },
+    {
+      "id": "ML2",
+      "title": "Libro 2",
+      "price": {
+        "currency": "$",
+        "amount": 4500,
+        "decimals": 2
+      },
+      "picture": "http://image2.jpg",
+      "condition": "new",
+      "freeShipping": true,
+      "stateName": "Mendoza"
+    }
+  ]
+}

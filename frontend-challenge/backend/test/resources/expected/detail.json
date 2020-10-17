@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "Franco",
+    "lastname": "Mazzoni"
+  },
+  "item": {
+    "id": "ML1",
+    "title": "Libro 1",
+    "price": {
+      "currency": "$",
+      "amount": 3500,
+      "decimals": 2
+    },
+    "picture": "http://image.jpg",
+    "condition": "new",
+    "freeShipping": true,
+    "soldQuantity": 20,
+    "stateName": null,
+    "categories": [
+      "Libros, Revistas y Comics",
+      "Libros"
+    ],
+    "description": "Este es un libro"
+  }
+}
