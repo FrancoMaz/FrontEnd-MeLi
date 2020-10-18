@@ -14,6 +14,7 @@ Posteriormente, ingresando a `localhost:3000` debería visualizarse la caja de b
 
 ```
 cd frontend-challenge/backend
+npm install
 npx jest --coverage
 ```
 
