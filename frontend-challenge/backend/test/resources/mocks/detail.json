@@ -2,7 +2,11 @@
   "id": "ML1",
   "title": "Libro 1",
   "price": 3500,
-  "thumbnail": "http://image.jpg",
+  "pictures": [
+    {
+      "secure_url": "http://image.jpg"
+    }
+  ],
   "currency_id": "ARS",
   "shipping": {
     "free_shipping": true
