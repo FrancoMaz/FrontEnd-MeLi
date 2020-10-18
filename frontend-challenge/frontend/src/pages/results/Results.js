@@ -20,12 +20,14 @@ class Results extends React.Component {
 		this.getSearchResponse()
 	}
 
+	//Si no se hace el fetch al actualizar la url, entonces no se puede realizar una rebúsqueda desde la página de resultados
 	componentDidUpdate(prevprops, prevState) {
 		if (this.props.location.search !== prevprops.location.search) {
 			this.getSearchResponse()
 		}
 	}
 
+	//Voy al back a buscar la respuesta de search. Si viene bien la respuesta la guardo en el state
 	getSearchResponse = () => {
 		const params = new URLSearchParams(this.props.location.search)
 
@@ -43,6 +45,7 @@ class Results extends React.Component {
 			})
 	}
 
+	//Se muestra el cluster de resultados, dependiendo de la página donde está posicionado el usuario
 	showClusterResults = () => {
 		const { items } = this.state.searchResponse
 
@@ -63,20 +66,24 @@ class Results extends React.Component {
 		)
 	}
 
+  //Muestro el breadcrumb. Si no vinieron categorías, no se muestran en la página (categories está vacío
 	showBreadcrumb = () => {
 		const { categories } = this.state.searchResponse
 		return <Breadcrumb categories={categories} />
 	}
 
+	//Al cambiar de página, se actualiza la página donde está posicionado el usuario
 	changePage = (page) => {
 		this.setState({ actualPage: page })
 	}
 
+	//Se muestra la sección donde están las páginas
 	showPages = () => {
+		//La última página depende de la cantidad de resultados que vinieron del back
 		const lastPage = Math.floor(
 			this.state.searchResponse.items.length / this.state.resultsPerPage + 1
 		)
-		// Creo un array de n posiciones (siendo n la última página). Como el array empieza en 0 tengo que aumentar los valores en 1
+		//Creo un array de n posiciones (siendo n la última página). Como el array empieza en 0 tengo que aumentar los valores en 1
 		const pagesToShow = [...Array(lastPage).keys()]
 		return (
 			<div className='pages'>
@@ -89,6 +96,9 @@ class Results extends React.Component {
 		)
 	}
 
+	//Se muestra la página de resultados
+  //No se muestra nada hasta que venga la respuesta del servicio
+	//Si vino un error del servicio, o si no hay ítems, se muestra el error correspondiente
 	showResults = () => {
 		if (!this.state.searchResponse) return null
 

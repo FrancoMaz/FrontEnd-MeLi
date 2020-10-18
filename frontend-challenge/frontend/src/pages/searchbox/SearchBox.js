@@ -13,6 +13,7 @@ class SearchBox extends React.Component {
 		}
 	}
 
+	//Al realizar una búsqueda, se actualiza el path si la búsqueda es válida, y se setea el mensaje de error si el campo está vacío
 	handleClick = (newPath) => {
 		if (this.state.query !== '') {
 			this.props.history.push(newPath)
@@ -21,10 +22,12 @@ class SearchBox extends React.Component {
 		}
 	}
 
+	//Se actualiza la query a medida que el usuario escribe en el input de búsqueda
 	handleInputChange = (event) => {
 		this.setState({ query: event.target.value, errorMessage: '' })
 	}
 
+	//Si hubo algún error se muestra el mensaje correspondiente (en este caso solo puede suceder si se quiso buscar con el input vacío)
 	showError() {
 		if (this.state.errorMessage !== '') {
 			return <ErrorMessage message={this.state.errorMessage} />

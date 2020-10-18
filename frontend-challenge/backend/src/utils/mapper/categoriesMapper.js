@@ -1,9 +1,11 @@
 const CategoryService = require("../../service/categoryService");
 
+//Función que ordena las categorías del servicio de search por cantidad de resultados
 function sortCategories(categories) {
-    return categories.sort((a, b) => (a.results < b.results) ? 1 : -1); //Ordeno para quedarme con la categoría que tiene más resultados
+    return categories.sort((a, b) => (a.results < b.results) ? 1 : -1);
 }
 
+//Función que obtiene las categorías a devolver. Dado un id, se va al servicio de categorías para obtener las que se deben devolver
 async function mapCategories(categoryId) {
     let categoriesNames = [];
     let categoryServiceResponse = await CategoryService(categoryId);
@@ -18,6 +20,7 @@ async function mapCategories(categoryId) {
     return categoriesNames;
 }
 
+//Función que ejecuta las dos funciones anteriores
 async function sortAndMapCategories(categories) {
     let categoriesSorted = sortCategories(categories);
     return await mapCategories(categoriesSorted[0].id)

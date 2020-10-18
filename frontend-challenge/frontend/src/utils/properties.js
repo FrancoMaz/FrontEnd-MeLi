@@ -1,3 +1,4 @@
+//Propiedades que se utilizan en varias páginas/componentes del front, como los textos a mostrar, o los errores
 export const properties = {
 	text: {
 		new: 'Nuevo',

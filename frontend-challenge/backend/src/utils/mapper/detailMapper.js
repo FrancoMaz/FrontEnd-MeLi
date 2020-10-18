@@ -5,12 +5,14 @@ const ItemModel = require("../../model/ItemModel").ItemModel;
 
 const jsonConfig = require('../../../resources/config.json');
 
+//Función que devuelve la respuesta a devolver al front
 async function mapDetail(item, description, res) {
     return new DetailModel(
         jsonConfig.author,
         await mapDetailItem(item, description, res)).toJson()
 }
 
+//Función que devuelve el objeto item que se necesita en la respuesta
 async function mapDetailItem(item, description, res) {
     let freeShipping = item.shipping ? item.shipping.free_shipping : false;
 

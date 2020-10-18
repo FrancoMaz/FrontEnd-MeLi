@@ -17,6 +17,7 @@ class Detail extends React.Component {
 		this.getDetailResponse()
 	}
 
+	//Acá voy al back, dado el id de la url. Si viene la respuesta la agrego al state
 	getDetailResponse = () => {
 		fetch(`http://localhost:3001/api/items/${this.props.match.params.id}`, {
 			method: 'GET',
@@ -32,6 +33,8 @@ class Detail extends React.Component {
 			})
 	}
 
+	//Muestro un 0 por la cantidad de decimales que me devolvió el servicio (depende de la currency)
+	//Luego de hacer varias pruebas, no se encontraron casos donde aparezcan ya precios con decimales, por lo que se optó por hacer de esta forma
 	showDecimals = (item) => {
 		const numberOfDecimals = item.price.decimals
 		let decimals = ''
@@ -42,6 +45,7 @@ class Detail extends React.Component {
 		return decimals
 	}
 
+	//Muestro el detalle de la página. Si la descripción viene vacía, entonces no muestro dicha sección
 	showDetail = () => {
 		const { item } = this.state.detailResponse
 		const description = item.description ? (
@@ -78,11 +82,14 @@ class Detail extends React.Component {
 		)
 	}
 
+	//Muestro el breadcrumb. Si no vinieron categorías, no se muestran en la página (categories está vacío
 	showBreadcrumb = () => {
 		const { categories } = this.state.detailResponse.item
 		return <Breadcrumb categories={categories} />
 	}
 
+	//Se muestra la página de detalle. No se muestra nada hasta que venga la respuesta del servicio
+	//Cuando llega la respuesta, si vino bien del servicio, entonces se muestra el detalle; en caso contrario, se muestra el error correspondiente
 	showDetailPage = () => {
 		if (!this.state.detailResponse) return null
 

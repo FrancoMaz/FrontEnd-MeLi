@@ -2,6 +2,8 @@ import React from 'react'
 import './Result.scss'
 
 class Result extends React.Component {
+
+	//Cuando el usuario hace click en el título o en la imagen se cambia la ruta por la de detalle correspondiente
 	routeChange = (newPath) => {
 		this.props.history.push(newPath)
 	}
