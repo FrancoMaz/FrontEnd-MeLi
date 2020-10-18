@@ -1,20 +1,14 @@
 # FrontEnd-MeLi
 
-##Levantar backend
+##Levantar proyecto
 
 ```
-cd frontend-challenge/backend
-npm install
-npm start
+cd frontend-challenge
+docker-compose up
 ```
 
-##Levantar frontend
+Posteriormente, ingresando a `localhost:3000` debería visualizarse la caja de búsqueda.
 
-```
-cd frontend-challenge/frontend
-npm install
-npm run start
-```
 
 ##Correr tests de backend
 
