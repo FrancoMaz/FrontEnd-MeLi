@@ -1,14 +1,10 @@
-import React from 'react';
-import './ErrorMessage.scss';
+import React from 'react'
+import './ErrorMessage.scss'
 
 class ErrorMessage extends React.Component {
-
-    render() {
-        return (
-            <div className="error-message">{this.props.message}</div>
-        )
-    }
-
+	render() {
+		return <div className='error-message'>{this.props.message}</div>
+	}
 }
 
-export default ErrorMessage;
+export default ErrorMessage
