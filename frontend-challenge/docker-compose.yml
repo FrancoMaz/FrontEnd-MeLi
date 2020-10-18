@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  backend:
+    build: ./backend
+    expose:
+      - ${APP_BACKEND_PORT}
+    environment:
+      API_HOST: ${API_HOST}
+      APP_BACKEND_PORT: ${APP_BACKEND_PORT}
+    ports:
+      - ${APP_BACKEND_PORT}:${APP_BACKEND_PORT}
+    volumes:
+      - ./backend/src:/app-backend/src
+    command: npm start
+
+  frontend:
+    build: ./frontend
+    environment:
+      APP_FRONTEND_PORT: ${APP_FRONTEND_PORT}
+    expose:
+      - ${APP_FRONTEND_PORT}
+    ports:
+      - ${APP_FRONTEND_PORT}:${APP_FRONTEND_PORT}
+    volumes:
+      - ./frontend/src:/app-frontend/src
+      - ./frontend/public:/app-frontend/public
+    links:
+      - backend
+    command: npm run start
+    stdin_open: true
