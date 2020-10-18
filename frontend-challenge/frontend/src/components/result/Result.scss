@@ -2,15 +2,14 @@
 
   display: flex;
   background-color: #FFFFFF;
-  padding: 10px;
-  border-bottom: 1px solid;
+  padding: 20px;
+  border-bottom: 1px solid #EEEEEE;
   height: auto;
   width: 100%;
 
   .image {
     width: 140px;
     height: 140px;
-    border: 1px solid;
     cursor: pointer;
   }
 
